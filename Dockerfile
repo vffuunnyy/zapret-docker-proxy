@@ -20,14 +20,14 @@ RUN ./install_bin.sh && \
 COPY dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 COPY resolv.conf /etc/resolv.conf
 
-# Устанавливаем атрибут только для чтения для resolv.conf
-RUN chattr +i /etc/resolv.conf
 
 # Включаем и запускаем службы
 RUN systemctl enable dnscrypt-proxy.service && \
     systemctl start dnscrypt-proxy.service && \
     systemctl enable systemd-resolved.service && \
     systemctl start systemd-resolved.service
+
+RUN cat /etc/resolv.conf
 
 # Копируем файл config в директорию /zapret
 COPY config /opt/zapret/config
