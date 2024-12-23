@@ -48,15 +48,30 @@ DOMAINS=(
     "cloudflare-ech.com"
 )
 
+# Функция добавления правил для IP-адреса
+add_iptables_rules() {
+    local ip="$1"
+    echo "Добавление правил для $ip"
+    for port in 80 443; do
+        iptables -t nat -A OUTPUT -p tcp -d "$ip" --dport "$port" -j REDIRECT --to-ports $PROXY_PORT
+    done
+}
+
 # Обрабатываем домены
 for domain in "${DOMAINS[@]}"; do
+    echo "Обработка домена: $domain"
     ip_addresses=$(dig +short "$domain" | grep -E '^[0-9.]+$')
+    if [[ -z "$ip_addresses" ]]; then
+        echo "⚠️  Не удалось разрешить домен: $domain"
+        continue
+    fi
+
     for ip in $ip_addresses; do
-        # Перенаправляем HTTP-трафик через прокси
-        iptables -t nat -A OUTPUT -p tcp -d "$ip" --dport 80 -j REDIRECT --to-ports $PROXY_PORT
-        iptables -t nat -A OUTPUT -p tcp -d "$ip" --dport 443 -j REDIRECT --to-ports $PROXY_PORT
+        add_iptables_rules "$ip"
     done
 done
 
 # Сохраняем правила iptables
 iptables-save > /etc/iptables/rules.v4
+
+echo "✅ Правила iptables успешно обновлены!"

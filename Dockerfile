@@ -1,44 +1,55 @@
 FROM ubuntu:20.04
 
-# Установка необходимых пакетов
-RUN apt-get update && \
-    apt-get install -y sudo curl iptables dnsmasq dnscrypt-proxy systemd && \
-    apt-get clean
+# Setup the environment
 
-# Устанавливаем переменные окружения для работы systemd
-ENV container docker
+RUN apt-get update && \ 
+    apt-get install -y init && \
+    apt-get clean all
+
+ENV container=docker
+
+COPY container.target /etc/systemd/system/container.target
+
+RUN ln -sf /etc/systemd/system/container.target /etc/systemd/system/default.target
+
+ENTRYPOINT ["/sbin/init"]
+
+RUN apt-get update && \
+    apt-get install systemd
+
 STOPSIGNAL SIGRTMIN+3
 
-# Создаем необходимые временные файловые системы
-VOLUME [ "/sys/fs/cgroup", "/tmp", "/run" ]
+RUN systemctl set-default multi-user.target
 
-# Копируем директорию zapret в контейнер
+# Download essentials
+
+RUN apt-get install -y curl iptables dnsmasq dnscrypt-proxy squid && \
+    apt-get clean
+
+# Setup directories and files
+
 COPY zapret /opt/zapret
 
-# Установка прав на выполнение скриптов
 WORKDIR /opt/zapret
-RUN chmod +x install_bin.sh install_prereq.sh install_easy.sh
 
-# Запуск установки zapret
+COPY dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+COPY resolv.conf /etc/resolv.conf
+COPY enable_services.sh /opt/zapret/enable_services.sh
+COPY iptables.sh /opt/zapret/iptables.sh
+COPY squid.conf /etc/squid/squid.conf
+COPY startup.sh /opt/zapret/startup.sh
+
+RUN chmod +x ./install_bin.sh ./install_prereq.sh ./install_easy.sh
+RUN chmod +x ./enable_services.sh ./iptables.sh ./startup.sh
+
+# Zapret installation
+
 RUN ./install_bin.sh && \
     echo "1" | ./install_prereq.sh
 
-# Копируем конфигурационные файлы
-COPY dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml
-COPY resolv.conf /etc/resolv.conf
-
-# Включаем службы
-RUN systemctl enable dnscrypt-proxy.service && \
-    systemctl enable systemd-resolved.service
-
-# Проверяем содержимое resolv.conf (опционально)
-RUN cat /etc/resolv.conf
-
-# Копируем файл config в директорию /zapret
 COPY config /opt/zapret/config
 
-# Установка и запуск zapret
-RUN ./install_easy.sh | echo "" 
-
-# Указываем команду запуска systemd
-CMD ["/lib/systemd/systemd"]
+# Add ips to iptables
+RUN ./iptables.sh
+    
+CMD [ "/bin/bash" ]
