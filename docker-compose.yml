@@ -1,0 +1,12 @@
+services:
+  zapret-proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zapret-proxy
+    privileged: true # Требуется для работы iptables
+    network_mode: "host" # Используем host-сеть для управления трафиком
+    volumes:
+      - ./zapret:/opt/zapret # Монтируем директорию с zapret
+    stdin_open: true
+    tty: true
