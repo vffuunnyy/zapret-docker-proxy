@@ -37,10 +37,11 @@ COPY resolv.conf /etc/resolv.conf
 COPY enable_services.sh /opt/zapret/enable_services.sh
 COPY iptables.sh /opt/zapret/iptables.sh
 COPY squid.conf /etc/squid/squid.conf
-COPY startup.sh /opt/zapret/startup.sh
+COPY startup.sh /opt/zapret/start_zapret.sh
+COPY start.sh /opt/zapret/start.sh
 
 RUN chmod +x ./install_bin.sh ./install_prereq.sh ./install_easy.sh
-RUN chmod +x ./enable_services.sh ./iptables.sh ./startup.sh
+RUN chmod +x ./enable_services.sh ./iptables.sh ./start_zapret.sh ./start.sh
 
 # Zapret installation
 
