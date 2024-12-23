@@ -53,7 +53,7 @@ add_iptables_rules() {
     local ip="$1"
     echo "Добавление правил для $ip"
     for port in 80 443; do
-        iptables -t nat -A OUTPUT -p tcp -d "$ip" --dport "$port" -j REDIRECT --to-ports $PROXY_PORT
+        iptables -t nat -A OUTPUT -p tcp -d "$ip" --dport "$PROXY_PORT" -j REDIRECT --to-ports "$port"
     done
 }
 
