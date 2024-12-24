@@ -50,7 +50,7 @@ RUN ./install_bin.sh && \
 
 COPY config /opt/zapret/config
 
-# Add ips to iptables
-RUN ./iptables.sh
+# Add ips to iptables ! Currently unavailable
+# RUN ./iptables.sh
     
 CMD [ "/bin/bash" ]

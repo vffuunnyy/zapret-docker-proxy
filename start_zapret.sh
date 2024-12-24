@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ./enable_serices.sh
 
 echo "starting zapret"
