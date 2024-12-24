@@ -1,5 +1,7 @@
 #!/bin/bash
 
+./stop.sh
+
 docker-compose build
 docker-compose up -d
 

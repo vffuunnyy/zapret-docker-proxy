@@ -1,4 +1,7 @@
-FROM ubuntu:20.04
+FROM sameersbn/squid
+
+RUN mkdir -p /var/log/squid3 && \
+    chown proxy:proxy /var/log/squid3
 
 # Setup the environment
 
@@ -23,7 +26,7 @@ RUN systemctl set-default multi-user.target
 
 # Download essentials
 
-RUN apt-get install -y curl iptables dnsmasq dnscrypt-proxy squid && \
+RUN apt-get install -y curl iptables dnsmasq dnscrypt-proxy && \
     apt-get clean
 
 # Setup directories and files
@@ -36,7 +39,10 @@ COPY dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 COPY resolv.conf /etc/resolv.conf
 COPY enable_services.sh /opt/zapret/enable_services.sh
 COPY iptables.sh /opt/zapret/iptables.sh
+
+COPY tinyproxy.conf /etc/tinyproxy/tinyproxy.conf
 COPY squid.conf /etc/squid/squid.conf
+
 COPY start_zapret.sh /opt/zapret/start_zapret.sh
 COPY start.sh /opt/zapret/start.sh
 
