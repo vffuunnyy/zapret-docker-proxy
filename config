@@ -71,7 +71,7 @@ TPWS_OPT="
 NFQWS_ENABLE=1
 # redirect outgoing traffic with connbytes limiter applied in both directions.
 NFQWS_PORTS_TCP=80,443
-NFQWS_PORTS_UDP=443
+NFQWS_PORTS_UDP=443, 50000-50099
 # PKT_OUT means connbytes dir original
 # PKT_IN means connbytes dir reply
 # this is --dpi-desync-cutoff=nX kernel mode implementation for linux. it saves a lot of CPU.
