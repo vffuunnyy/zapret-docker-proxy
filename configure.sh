@@ -2,8 +2,8 @@
 
 sudo ./stop.sh
 
-sudo docker-compose build
-sudo docker-compose up -d
+# sudo docker-compose build
+sudo docker-compose up --build -d
 
 # wait for the container to be ready
 until docker exec zapret-proxy echo "Container is ready"; do
@@ -11,9 +11,8 @@ until docker exec zapret-proxy echo "Container is ready"; do
   sleep 2
 done
 
-sudo docker exec -it zapret-proxy ./enable_serices.sh
+sudo docker exec zapret-proxy ./enable_services.sh
 
-echo "We are about to run configuration"
+sudo docker exec zapret-proxy ./run_blockcheck_in_container.sh
 
-sudo docker exec -it zapret-proxy ./run_blockcheck_in_container.sh
-
+sudo ./scripts/form_config.sh

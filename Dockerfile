@@ -26,7 +26,7 @@ RUN systemctl set-default multi-user.target
 
 # Download essentials
 
-RUN apt-get install -y curl iptables dnsmasq dnscrypt-proxy && \
+RUN apt-get install -y curl iptables dnsmasq dnscrypt-proxy lsof && \
     apt-get clean
 
 # Setup directories and files
@@ -51,7 +51,7 @@ COPY scripts/iptables.sh /opt/zapret/iptables.sh
 COPY scripts/start_zapret.sh /opt/zapret/start_zapret.sh
 COPY scripts/blockcheck.sh /opt/zapret/run_blockcheck_in_container.sh
 
-COPY /zapret/init.d/custom.d.examples.linux//50-discord /zapret/init.d/sysv/custom.d/50-discord
+COPY /zapret/init.d/custom.d.examples.linux/50-discord /zapret/init.d/sysv/custom.d/50-discord
 
 COPY start.sh /opt/zapret/start.sh
 
