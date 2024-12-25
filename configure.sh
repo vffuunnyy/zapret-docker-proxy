@@ -16,3 +16,4 @@ sudo docker exec -it zapret-proxy ./enable_serices.sh
 echo "We are about to run configuration"
 
 sudo docker exec -it zapret-proxy ./run_blockcheck_in_container.sh
+
