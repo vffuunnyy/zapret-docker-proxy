@@ -13,3 +13,5 @@ services:
     tty: true  # Для запуска systemd
     ports:
       - "3128:3128"
+    volumes:
+      - ./configuration:/configuration

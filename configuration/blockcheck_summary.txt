@@ -1,0 +1,11 @@
+* SUMMARY
+ipv4 yandex.ru curl_test_http : working without bypass
+ipv4 yandex.ru curl_test_https_tls12 : working without bypass
+
+Please note this SUMMARY does not guarantee a magic pill for you to copy/paste and be happy.
+Understanding how strategies work is very desirable.
+This knowledge allows to understand better which strategies to prefer and which to avoid if possible, how to combine strategies.
+Blockcheck does it's best to prioritize good strategies but it's not bullet-proof.
+It was designed not as magic pill maker but as a DPI bypass test tool.
+
+press enter to continue

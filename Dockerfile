@@ -35,17 +35,24 @@ COPY zapret /opt/zapret
 
 WORKDIR /opt/zapret
 
-COPY dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml
-COPY resolv.conf /etc/resolv.conf
-COPY enable_services.sh /opt/zapret/enable_services.sh
-COPY iptables.sh /opt/zapret/iptables.sh
+
+# RUN mkdir -p /opt/zapret/configuration
+
+# RUN touch /opt/zapret/configuration/blockcheck_summary.txt && \
+#     touch /opt/zapret/configuration/blockcheck.log
+
+COPY configs/dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+COPY configs/resolv.conf /etc/resolv.conf
+COPY configs/tinyproxy.conf /etc/tinyproxy/tinyproxy.conf
+COPY configs/squid.conf /etc/squid/squid.conf
+
+COPY scripts/enable_services.sh /opt/zapret/enable_services.sh
+COPY scripts/iptables.sh /opt/zapret/iptables.sh
+COPY scripts/start_zapret.sh /opt/zapret/start_zapret.sh
+COPY scripts/blockcheck.sh /opt/zapret/run_blockcheck_in_container.sh
 
 COPY /zapret/init.d/custom.d.examples.linux//50-discord /zapret/init.d/sysv/custom.d/50-discord
 
-COPY tinyproxy.conf /etc/tinyproxy/tinyproxy.conf
-COPY squid.conf /etc/squid/squid.conf
-
-COPY start_zapret.sh /opt/zapret/start_zapret.sh
 COPY start.sh /opt/zapret/start.sh
 
 RUN chmod +x ./install_bin.sh ./install_prereq.sh ./install_easy.sh
@@ -60,5 +67,5 @@ COPY config /opt/zapret/config
 
 # Add ips to iptables ! Currently unavailable
 # RUN ./iptables.sh
-    
+
 CMD [ "/bin/bash" ]

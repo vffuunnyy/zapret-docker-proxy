@@ -11,4 +11,4 @@ until docker exec zapret-proxy echo "Container is ready"; do
   sleep 2
 done
 
-docker exec -it zapret-proxy ./start_zapret.sh
+docker exec -it zapret-proxy ./scripts/start_zapret.sh
