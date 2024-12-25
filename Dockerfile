@@ -40,6 +40,8 @@ COPY resolv.conf /etc/resolv.conf
 COPY enable_services.sh /opt/zapret/enable_services.sh
 COPY iptables.sh /opt/zapret/iptables.sh
 
+COPY /zapret/init.d/custom.d.examples.linux//50-discord /zapret/init.d/sysv/custom.d/50-discord
+
 COPY tinyproxy.conf /etc/tinyproxy/tinyproxy.conf
 COPY squid.conf /etc/squid/squid.conf
 
