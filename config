@@ -75,9 +75,9 @@ NFQWS_PORTS_UDP=443, 50000-50099
 # PKT_OUT means connbytes dir original
 # PKT_IN means connbytes dir reply
 # this is --dpi-desync-cutoff=nX kernel mode implementation for linux. it saves a lot of CPU.
-NFQWS_TCP_PKT_OUT=9
+NFQWS_TCP_PKT_OUT=$((6+$AUTOHOSTLIST_RETRANS_THRESHOLD))
 NFQWS_TCP_PKT_IN=3
-NFQWS_UDP_PKT_OUT=9
+NFQWS_UDP_PKT_OUT=$((6+$AUTOHOSTLIST_RETRANS_THRESHOLD))
 NFQWS_UDP_PKT_IN=0
 # redirect outgoing traffic without connbytes limiter and incoming with connbytes limiter
 # normally it's needed only for stateless DPI that matches every packet in a single TCP session
@@ -94,7 +94,7 @@ NFQWS_OPT="--filter-tcp=80 --dpi-desync=fakedsplit --dpi-desync-ttl=5 --dpi-desy
 MODE_FILTER=none
 
 # openwrt only : donttouch,none,software,hardware
-FLOWOFFLOAD=donttouch
+FLOWOFFLOAD=none
 
 # openwrt: specify networks to be treated as LAN. default is "lan"
 #OPENWRT_LAN="lan lan2 lan3"
