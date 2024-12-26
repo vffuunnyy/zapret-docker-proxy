@@ -1,99 +1,49 @@
-# Zapret-Proxy Setup
+# Проект: Docker-обертка для zapret с поддержкой Squid Proxy
 
-This repository provides an automated way to set up a proxy server with traffic filtering using Squid and Zapret. 
-The script `quickstart.sh` simplifies the process by installing dependencies, configuring the environment, and launching the Docker container.
+## Описание
 
-## **Quickstart**
+Данный проект является оберткой над [bol-van/zapret](https://github.com/bol-van/zapret) и позволяет:
+- Автоматизировать создание подходящего конфигурационного файла для zapret.
+- Контейнеризировать zapret с использованием Docker, добавляя поддержку proxy-сервера Squid.
 
-### **1. Clone the Repository**
-Clone this repository to your machine:
+Цель проекта — упростить развёртывание собственного прокси-сервера на удалённом сервере или на вашем собственном устройстве.
 
-```bash
-git clone https://github.com/8hrsk/zapret-docker-proxy.git
-cd zapret-docker-proxy
-```
+## Возможности
 
-### **2. Add Zapret Configuration**
-Place your custom configuration for Zapret in the cloned repository's folder:
+- Быстрое развёртывание готового контейнера.
+- Автоматическая генерация конфигурационных файлов для zapret.
+- Лёгкость использования без необходимости глубокого понимания сетевых технологий.
 
-```bash
-cp /path/to/your/zapret/config ./config
-```
+> **Примечание**: Я не являюсь сетевым специалистом, поэтому не смогу помочь с тонкой настройкой zapret. Однако, при необходимости, могу добавить новый функционал. Если Вам нужна помощь с настройкой zapret или Вы обнаружили проблему, связанную конкретно с zapret, то ищите решеение в оригинальном репозитории [bol-van/zapret](https://github.com/bol-van/zapret).
 
-### **3. Run the Quickstart Script**
-The `quickstart.sh` script will automatically download bol-van/zapret (69.8), build and start the Docker container:
+## Быстрый запуск
 
-```bash
-./quickstart.sh
-```
+Для быстрого запуска выполните следующие шаги:
 
-### **4. Configure Port Forwarding**
-If you are **not running the container on a VPS or dedicated server**, you need to configure port forwarding on your router:
+1. **Клонируйте репозиторий на сервер:**
+   ```bash
+   git clone https://github.com/8hrsk/zapret-docker-proxy.git
+   cd zapret-docker-proxy
+   ```
 
-1. Log in to your router's admin panel.
-2. Forward port `3128` to the local IP address of the machine running the container.
+2. **Запустите скрипт `quickstart.sh`:**
+   ```bash
+   sudo ./quickstart.sh
+   ```
+   
+   Этот скрипт автоматически развернёт проект в системе, используя дефолтный конфигурационный файл.
 
-   Example:
-   - Local IP: `192.168.1.100`
-   - Port: `3128`
+## Создание нового конфигурационного файла
 
-3. Save and apply the changes.
+Если требуется сгенерировать новый конфигурационный файл, выполните следующие шаги:
 
-### **5. Set Up Proxy on Your Device**
-Configure your device to use the proxy:
+1. **Запустите скрипт `blockcheck.sh`:**
+   ```bash
+   sudo ./blockcheck.sh
+   ```
 
-- **Proxy Address**: Use the local address of your machine (e.g., `192.168.1.100`).
-- **Proxy Port**: `3128`
+2. Скрипт выполнит поиск подходящих параметров для zapret и создаст новый конфигурационный файл. При этом старый конфигурационный файл будет сохранён для резервного использования.
 
-For example, in a browser, configure the proxy settings to use `http://192.168.1.100:3128`.
+## Обратная связь и улучшения
 
----
-
-## **Manual Docker Commands**
-If you prefer manual control, use the following commands:
-
-### Build the Container
-```bash
-docker-compose build
-```
-
-### Start the Container
-```bash
-docker-compose up -d
-```
-
-### Access the Logs
-```bash
-docker logs -f zapret-proxy
-```
-
-### Stop the Container
-```bash
-docker-compose down
-```
-
----
-
-## **Troubleshooting**
-
-### Squid Issues
-- Ensure your Zapret configuration is valid.
-- Check Docker logs for errors:
-  ```bash
-  docker logs zapret-proxy
-  ```
-
-### Port Forwarding Issues
-- Verify that your router forwards port `3128` to the correct local IP.
-- Confirm that no firewall rules are blocking the forwarded port.
-
----
-
-## **Contributing**
-Feel free to submit issues or pull requests to improve the project.
-I would be very happy if you help me integrate iptables support, because I do not have necessary knowledge <3
-
----
-
-## **License**
-This project is licensed under the MIT License.
+Если вы обнаружили проблему или у вас есть идеи для улучшения функционала, создайте Issue или Pull Request в репозитории. Я открыт для предложений!

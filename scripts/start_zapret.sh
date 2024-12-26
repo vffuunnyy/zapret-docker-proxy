@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Запускаем запрет по готовому конфигу
+
 ./enable_serices.sh
 
 echo "starting zapret"

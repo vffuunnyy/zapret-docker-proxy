@@ -16,3 +16,5 @@ sudo docker exec zapret-proxy ./enable_services.sh
 sudo docker exec zapret-proxy ./run_blockcheck_in_container.sh
 
 sudo ./scripts/form_config.sh
+
+sudo docker exec zapret-proxy ./start_zapret.sh

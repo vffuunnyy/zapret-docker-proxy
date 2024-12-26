@@ -26,7 +26,7 @@ RUN systemctl set-default multi-user.target
 
 # Download essentials
 
-RUN apt-get install -y curl iptables dnsmasq dnscrypt-proxy lsof && \
+RUN apt-get install -y curl iptables dnscrypt-proxy lsof && \
     apt-get clean
 
 # Setup directories and files

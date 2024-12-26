@@ -7,16 +7,11 @@ TMP_SUMMARY="./configuration/tmp_summary.txt"
 
 cp "$SUMMARY_FILE" "$TMP_SUMMARY"
 
+# Удаляем строки содержащие "tpws"
 sed -i '/tpws/d' "$TMP_SUMMARY"
 
 # Удаляем подстроку "nfqws" из оставшихся строк
 sed -i 's/nfqws//g' "$TMP_SUMMARY"
-
-# Проверяем, что файлы существуют
-if [[ ! -f "$TMP_SUMMARY" ]]; then
-  echo "Ошибка: Файл summary не найден: $SUMMARY_FILE"
-  exit 1
-fi
 
 if [[ ! -f "$CONFIG_FILE" ]]; then
   echo "Ошибка: Файл конфигурации не найден: $CONFIG_FILE"
