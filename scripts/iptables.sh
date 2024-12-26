@@ -75,3 +75,5 @@ done
 iptables-save > /etc/iptables/rules.v4
 
 echo "✅ Правила iptables успешно обновлены!"
+
+exit 0
