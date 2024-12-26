@@ -1,4 +1,4 @@
-# Проект: Docker-обертка для zapret с поддержкой Squid Proxy
+Proxy сервер с [bol-van/zapret](https://github.com/bol-van/zapret) в Docker
 
 ## Описание
 
