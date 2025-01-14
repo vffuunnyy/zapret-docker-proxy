@@ -49,8 +49,8 @@ echo "HTTP: $HTTP_CONF"
 echo "HTTPS: $HTTPS_CONF"
 echo "UDP: $UDP_CONF"
 
-sudo rm "$TMP_SUMMARY"
+rm "$TMP_SUMMARY"
 
-sudo mv ./config "./config.old.$(date +%Y%m%d%H%M%S)"
+mv ./config "./config.old.$(date +%Y%m%d%H%M%S)"
 
-sudo cp "$CONFIG_FILE" ./config
+cp "$CONFIG_FILE" ./config
