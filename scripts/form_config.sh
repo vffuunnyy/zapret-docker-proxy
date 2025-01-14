@@ -53,4 +53,4 @@ sudo rm "$TMP_SUMMARY"
 
 sudo mv ./config "./config.old.$(date +%Y%m%d%H%M%S)"
 
-sudo cp "$CONFIG_FILE" ./config 
+sudo cp "$CONFIG_FILE" ./config
