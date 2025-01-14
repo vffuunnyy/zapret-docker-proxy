@@ -4,8 +4,7 @@
 ./stop.sh
 
 # Build and start container
-docker-compose build
-docker-compose up -d
+docker-compose up --build -d
 
 # Wait for the container to be ready
 until docker exec zapret-proxy echo "Container is ready"; do
