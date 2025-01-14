@@ -1,15 +1,20 @@
 #!/bin/bash
 
-sudo apt-get update
-sudo apt-get install -y wget
-sudo wget https://github.com/bol-van/zapret/releases/download/v69.8/zapret-v69.8.tar.gz
+# TODO: use latest version
+ZAPRET_VERSION_TAG="v69.9"
 
-if ! sudo tar -xzfv zapret-v69.8.tar.gz; then
-    sudo tar xzfv zapret-v69.8.tar.gz
+# Remove old zapret directory if exists
+if [ -d "./zapret" ]; then rm -Rf ./zapret; fi
+
+# Download zapret
+wget "https://github.com/bol-van/zapret/releases/download/$ZAPRET_VERSION_TAG/zapret-$ZAPRET_VERSION_TAG.tar.gz"
+if ! tar -xvzf "zapret-$ZAPRET_VERSION_TAG.tar.gz"; then
+    tar xvzf "zapret-$ZAPRET_VERSION_TAG.tar.gz"
 fi
 
-sudo rm zapret-v69.8.tar.gz
+# Extract it
+rm "zapret-$ZAPRET_VERSION_TAG.tar.gz"
+mv "./zapret-$ZAPRET_VERSION_TAG" ./zapret
 
-sudo mv ./zapret-v69.8 ./zapret
-
-sudo ./start.sh
+# Start build script
+./start.sh
