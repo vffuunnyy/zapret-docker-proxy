@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# Запускаем запрет по готовому конфигу
+# Enable and start services
+./enable_services.sh
 
-./enable_serices.sh
-
-echo "starting zapret"
-
+# Install zapret
+echo "Installing zapret..."
 printf '%s\n' '\n' 'n' '\n' 'n' '\n' 'n' '\n' 'n' | ./install_easy.sh
+echo "zapret installed"
 
-systemctl tinyproxy restart
-
+echo "Done!"
 exit 0
