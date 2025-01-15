@@ -1,8 +1,10 @@
 #!/bin/bash
 
+# Domain to test on. Pls use only one domain!
+TEST_DOMAIN="x.com"
+
+# Output file
 LOG_FILE="blockcheck.log"
-SUMMARY_FILE="blockcheck_summary.txt"
 
-printf '\n' '\n' '\n' '\n' '\n' '\n' '\n' | ./blockcheck.sh | tee /configuration/"$LOG_FILE"
-
-grep -A 1000 -i "summary" /configuration/"$LOG_FILE" | grep -B 1000 -i "Please" | grep -v -i "Please" >/configuration/"$SUMMARY_FILE"
+# Run blockcheck.sh in BATCH mode
+DOMAINS="$TEST_DOMAIN" IPVS=4 ENABLE_HTTP=0 ENABLE_HTTPS_TLS12=1 ENABLE_HTTPS_TLS13=1 REPEATS=3 PARALLEL=1 SCANLEVEL=standard BATCH=1 SKIP_IPBLOCK=1 SKIP_TPWS=1 SECURE_DNS=1 ./blockcheck.sh | tee /configuration/"$LOG_FILE"

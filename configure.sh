@@ -16,10 +16,10 @@ done
 docker exec zapret-proxy ./enable_services.sh
 
 # Run blockcheck.sh
-docker exec zapret-proxy ./run_blockcheck_in_container.sh
+docker exec zapret-proxy ./blockcheck_in_container.sh
 
 # Generate new config
 ./scripts/form_config.sh
 
-# Reinstall zapret
-docker exec zapret-proxy ./start_zapret.sh
+# Reinstall zapret and restart it
+docker exec -it zapret-proxy ./start_zapret.sh

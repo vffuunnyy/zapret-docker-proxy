@@ -54,7 +54,7 @@ COPY configs/squid.conf /etc/squid/squid.conf
 COPY scripts/enable_services.sh /opt/zapret/enable_services.sh
 COPY scripts/iptables.sh /opt/zapret/iptables.sh
 COPY scripts/start_zapret.sh /opt/zapret/start_zapret.sh
-COPY scripts/blockcheck.sh /opt/zapret/run_blockcheck_in_container.sh
+COPY scripts/blockcheck.sh /opt/zapret/blockcheck_in_container.sh
 
 WORKDIR /opt/zapret
 COPY /zapret/init.d/custom.d.examples.linux/50-discord /zapret/init.d/sysv/custom.d/50-discord

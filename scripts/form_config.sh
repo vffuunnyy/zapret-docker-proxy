@@ -1,56 +1,46 @@
 #!/bin/bash
 
-# Пути к файлам
-SUMMARY_FILE="./configuration/blockcheck_summary.txt"
-CONFIG_FILE="./configuration/blockcheck"
-TMP_SUMMARY="./configuration/tmp_summary.txt"
+# blockcheck.sh output
+BLOCKCHECK_LOG="./configuration/blockcheck.log"
 
-cp "$SUMMARY_FILE" "$TMP_SUMMARY"
-
-# Удаляем строки содержащие "tpws"
-sed -i '/tpws/d' "$TMP_SUMMARY"
-
-# Удаляем подстроку "nfqws" из оставшихся строк
-sed -i 's/nfqws//g' "$TMP_SUMMARY"
+# Original config file
+CONFIG_FILE="./config"
 
 if [[ ! -f "$CONFIG_FILE" ]]; then
-  echo "Ошибка: Файл конфигурации не найден: $CONFIG_FILE"
+  echo "Error: File $CONFIG_FILE doesn't exist"
+  exit 1
+fi
+# Extract option from first string containing "nfqws" and cut everything before "nfqws"
+echo "Extracting FIRST working nfqws option..."
+summary_option=$(grep -A 1000 -i "summary" "$BLOCKCHECK_LOG" | grep -B 1000 -i "Please" | grep -v -i "Please" | grep -m1 "nfqws")
+summary_option=${summary_option##*"nfqws "}
+
+# Check
+if [[ -z "$summary_option" ]]; then
+  echo "Error: Unable to extract summary options from $BLOCKCHECK_LOG"
   exit 1
 fi
 
-# Функция для извлечения параметров из summary, исключая строки с tpws
-get_summary_option() {
-  local protocol=$1
-  grep -i "curl_test_$protocol" "$TMP_SUMMARY" | head -n 1 | awk -F':' '{print $2}' | xargs
-}
+# Form new config params
+HTTP_CONF="--filter-tcp=80 $summary_option <HOSTLIST> --new"
+HTTPS_CONF="--filter-tcp=443 $summary_option <HOSTLIST> --new"
+UDP_CONF="--filter-udp=443 $summary_option <HOSTLIST_NOAUTO>"
 
-# Извлекаем параметры для HTTP, HTTPS и UDP
-HTTP_OPTION=$(get_summary_option "http")
-HTTPS_OPTION=$(get_summary_option "https_tls12")
-UDP_OPTION=$(get_summary_option "https_tls12")
+# Backup old config
+config_old="$CONFIG_FILE.old.$(date +%Y%m%d%H%M%S)"
+echo "Existing config file renamed to $config_old"
+cp $CONFIG_FILE "$config_old"
 
-if [[ -z "$HTTP_OPTION" || -z "$HTTPS_OPTION" || -z "$UDP_OPTION" ]]; then
-  echo "Ошибка: Не удалось извлечь параметры для HTTP, HTTPS или UDP (возможно, строки содержат tpws)."
-  exit 1
-fi
-
-# Формируем параметры для конфигурации
-HTTP_CONF="--filter-tcp=80 $HTTP_OPTION <HOSTLIST> --new"
-HTTPS_CONF="--filter-tcp=443 $HTTPS_OPTION <HOSTLIST> --new"
-UDP_CONF="--filter-udp=443 $UDP_OPTION <HOSTLIST_NOAUTO>"
-
-# Обновляем конфигурационный файл
+# Replace lines in config file
 sed -i -E "s|--filter-tcp=80.*<HOSTLIST>.*|$HTTP_CONF|" "$CONFIG_FILE"
 sed -i -E "s|--filter-tcp=443.*<HOSTLIST>.*|$HTTPS_CONF|" "$CONFIG_FILE"
 sed -i -E "s|--filter-udp=443.*<HOSTLIST_NOAUTO>.*|$UDP_CONF|" "$CONFIG_FILE"
 
-echo "Конфигурация обновлена:"
+# Log updates
+echo "Updated config:"
 echo "HTTP: $HTTP_CONF"
 echo "HTTPS: $HTTPS_CONF"
 echo "UDP: $UDP_CONF"
 
-rm "$TMP_SUMMARY"
-
-mv ./config "./config.old.$(date +%Y%m%d%H%M%S)"
-
-cp "$CONFIG_FILE" ./config
+echo "Done!"
+exit 0
