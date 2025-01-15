@@ -68,6 +68,9 @@ RUN chmod +x ./enable_services.sh ./iptables.sh ./start_zapret.sh ./start.sh
 # Disable default DNS
 RUN echo "DNSStubListener=no" >> /etc/systemd/resolved.conf
 
+# Install dnscrypt-proxy service
+RUN /opt/dnscrypt-proxy/dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml -service install
+
 # Zapret installation
 
 RUN ./install_bin.sh && \

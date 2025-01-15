@@ -9,12 +9,8 @@ echo "Stopping and disabling systemd-resolved service..."
 systemctl stop systemd-resolved
 systemctl disable systemd-resolved
 
-# echo "Restarting dnsmasq.service service..."
-# systemctl restart dnsmasq.service
-
-echo "Enabling and restarting dnscrypt-proxy service... This might take a while"
-systemctl enable dnscrypt-proxy.service
-systemctl restart dnscrypt-proxy.service
+echo "Restarting dnscrypt-proxy service..."
+/opt/dnscrypt-proxy/dnscrypt-proxy -service restart
 
 # echo "Enabling and restarting systemd-resolved service..."
 #systemctl enable systemd-resolved.service
