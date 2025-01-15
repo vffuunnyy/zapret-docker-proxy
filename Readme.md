@@ -21,12 +21,13 @@
 
 Для быстрого запуска выполните следующие шаги:
 
-1. **Клонируйте репозиторий на сервер:**
+1. **Установите `docker` и `docker-compose` на сервер:**
 
    ```shell
-   git clone https://github.com/8hrsk/zapret-docker-proxy.git
-   cd zapret-docker-proxy
+   sudo apt-get update && sudo apt-get install docker docker-compose
    ```
+
+   > После установки необходимо добавить текущего пользователя в группу `docker` и перезапустить систему
 
 2. **Убедитесь, что `docker` настроен верно в вашей системе:**
 
@@ -36,7 +37,14 @@
 
    > В случае ошибки прав доступа, добавьте текущего пользователя в группу `docker` и перезапустите систему
 
-3. **Запустите скрипт `quickstart.sh`:**
+3. **Клонируйте репозиторий на сервер:**
+
+   ```shell
+   git clone https://github.com/8hrsk/zapret-docker-proxy.git
+   cd zapret-docker-proxy
+   ```
+
+4. **Запустите скрипт `quickstart.sh`:**
 
    ```shell
    ./quickstart.sh
