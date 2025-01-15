@@ -9,6 +9,18 @@ echo "Stopping and disabling systemd-resolved service..."
 systemctl stop systemd-resolved
 systemctl disable systemd-resolved
 
+# Set default DNS to dnscrypt-proxy using resolvconf package
+if ! dpkg -s resolvconf &>/dev/null; then
+    echo "Installing resolvconf..."
+    umount -f /etc/resolv.conf
+    apt-get install -y resolvconf
+    echo "nameserver 127.0.0.1" > /etc/resolvconf/resolv.conf.d/original
+    echo "options edns0" >> /etc/resolvconf/resolv.conf.d/original
+    echo "nameserver 127.0.0.1" > /etc/resolvconf/resolv.conf.d/base
+    echo "options edns0" >> /etc/resolvconf/resolv.conf.d/base
+    resolvconf -u
+fi
+
 echo "Restarting dnscrypt-proxy service..."
 /opt/dnscrypt-proxy/dnscrypt-proxy -service restart
 
