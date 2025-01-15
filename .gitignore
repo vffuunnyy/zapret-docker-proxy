@@ -1,4 +1,5 @@
 /zapret
 /dnscrypt-proxy
-/configuration/*
+/configuration
+/squid_passwd
 config.*
