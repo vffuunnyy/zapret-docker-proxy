@@ -41,9 +41,6 @@ COPY dnscrypt-proxy /opt/dnscrypt-proxy
 # RUN touch /opt/zapret/configuration/blockcheck_summary.txt && \
 #     touch /opt/zapret/configuration/blockcheck.log
 
-# Copy systemd files
-COPY systemd/dnscrypt-proxy.service /lib/systemd/system/dnscrypt-proxy.service
-
 # Copy configs
 RUN mkdir -p /etc/dnscrypt-proxy
 COPY configs/dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml
