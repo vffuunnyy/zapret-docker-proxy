@@ -66,6 +66,9 @@ RUN chmod +x ./install_bin.sh ./install_prereq.sh ./install_easy.sh
 RUN chmod +x ./enable_services.sh ./iptables.sh ./start_zapret.sh ./start.sh
 
 # Disable default DNS
+RUN echo rm -f /etc/resolv.conf
+RUN echo "nameserver 127.0.0.1" > /etc/resolv.conf
+RUN echo "options edns0" >> /etc/resolv.conf
 RUN echo "DNSStubListener=no" >> /etc/systemd/resolved.conf
 
 # Zapret installation

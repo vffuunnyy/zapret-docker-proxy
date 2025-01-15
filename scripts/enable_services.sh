@@ -5,8 +5,9 @@ echo "Enabling and starting services..."
 echo "Reloading systemctl daemon..."
 systemctl daemon-reload
 
-echo "Stopping systemd-resolved service..."
+echo "Stopping and disabling systemd-resolved service..."
 systemctl stop systemd-resolved
+systemctl disable systemd-resolved
 
 # echo "Restarting dnsmasq.service service..."
 # systemctl restart dnsmasq.service
