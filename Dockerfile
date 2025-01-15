@@ -65,6 +65,9 @@ COPY start.sh /opt/zapret/start.sh
 RUN chmod +x ./install_bin.sh ./install_prereq.sh ./install_easy.sh
 RUN chmod +x ./enable_services.sh ./iptables.sh ./start_zapret.sh ./start.sh
 
+# Disable default DNS
+RUN echo "DNSStubListener=no" >> /etc/systemd/resolved.conf
+
 # Zapret installation
 
 RUN ./install_bin.sh && \
