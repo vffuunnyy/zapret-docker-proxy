@@ -11,8 +11,8 @@ else
     /usr/bin/htpasswd -c /squid/passwd $proxy_username
 fi
 
-echo "Restarting squid service... This might take a while"
-systemctl restart squid
+echo "Reloading squid"
+squid -k reconfigure
 
 echo "Done!"
 exit 0
