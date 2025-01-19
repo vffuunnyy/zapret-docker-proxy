@@ -22,4 +22,4 @@ docker exec zapret-proxy ./blockcheck_in_container.sh
 ./scripts/form_config.sh
 
 # Reinstall zapret and restart it
-docker exec -it zapret-proxy ./start_zapret.sh
+docker exec zapret-proxy ./start_zapret.sh

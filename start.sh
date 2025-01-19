@@ -13,4 +13,4 @@ until docker exec zapret-proxy echo "Container is ready"; do
 done
 
 # Execute starting script
-docker exec -it zapret-proxy ./start_zapret.sh
+docker exec zapret-proxy ./start_zapret.sh
