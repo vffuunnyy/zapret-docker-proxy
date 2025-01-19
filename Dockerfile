@@ -52,6 +52,7 @@ COPY scripts/iptables.sh /opt/zapret/iptables.sh
 COPY scripts/start_zapret.sh /opt/zapret/start_zapret.sh
 COPY scripts/blockcheck_wrapper.sh /opt/zapret/blockcheck_in_container.sh
 COPY scripts/add_user.sh /etc/squid/add_user.sh
+COPY scripts/delete_user.sh /etc/squid/delete_user.sh
 
 WORKDIR /opt/zapret
 COPY /zapret/init.d/custom.d.examples.linux/50-discord /zapret/init.d/sysv/custom.d/50-discord
