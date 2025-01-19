@@ -18,6 +18,7 @@ fi
 
 # Set default DNS to dnscrypt-proxy using resolvconf package
 echo "Changing default DNS server to dnscrypt-proxy..."
+if [ -f "/run/resolvconf/resolv.conf" ]; then umount -f "/run/resolvconf/resolv.conf"; fi
 echo "nameserver 127.0.0.1" > /etc/resolvconf/resolv.conf.d/original
 echo "options edns0" >> /etc/resolvconf/resolv.conf.d/original
 echo "nameserver 127.0.0.1" > /etc/resolvconf/resolv.conf.d/base
