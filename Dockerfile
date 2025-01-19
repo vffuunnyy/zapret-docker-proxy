@@ -44,7 +44,6 @@ COPY dnscrypt-proxy /opt/dnscrypt-proxy
 # Copy configs
 RUN mkdir -p /etc/dnscrypt-proxy
 COPY configs/dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml
-COPY configs/resolv.conf /etc/resolv.conf
 COPY configs/squid.conf /etc/squid/squid.conf
 
 # Copy scripts
