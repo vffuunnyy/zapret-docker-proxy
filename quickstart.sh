@@ -1,15 +1,60 @@
 #!/bin/bash
 
-sudo apt-get update
-sudo apt-get install -y wget
-sudo wget https://github.com/bol-van/zapret/releases/download/v69.8/zapret-v69.8.tar.gz
+# See <https://github.com/DNSCrypt/dnscrypt-proxy/releases/latest> for more info
+DNSCRYPT_PLATFORM="linux"
+DNSCRYPT_ARCH="x86_64"
 
-if ! sudo tar -xzfv zapret-v69.8.tar.gz; then
-    sudo tar xzfv zapret-v69.8.tar.gz
+# Remove old zapret directory if exists
+if [ -d "./zapret" ]; then rm -Rf ./zapret; fi
+
+# Download zapret
+download_url=$(curl -s https://api.github.com/repos/bol-van/zapret/releases/latest | grep -oP '"browser_download_url": "\K.*?\.tar\.gz(?=")' | grep -v "openwrt")
+if [ -z "$download_url" ]; then
+    echo "Error: Unable to find .tar.gz asset in the latest release of zapret"
+    exit 1
+fi
+filename=$(basename "$download_url")
+echo "Downloading $download_url"
+wget "$download_url"
+if ! tar -xvzf "$filename"; then
+    tar xvzf "$filename"
 fi
 
-sudo rm zapret-v69.8.tar.gz
+# Extract it
+rm "$filename"
+mv "./${filename%.*.*}" ./zapret
 
-sudo mv ./zapret-v69.8 ./zapret
+# Check
+if [ ! -d "./zapret" ]; then
+    echo "Error downloading or extracting zapret binaries"
+    exit 1
+fi
 
-sudo ./start.sh
+# Remove old dnscrypt-proxy directory if exists
+if [ -d "./dnscrypt-proxy" ]; then rm -Rf ./dnscrypt-proxy; fi
+
+# Download dnscrypt-proxy
+download_url=$(curl -s https://api.github.com/repos/DNSCrypt/dnscrypt-proxy/releases/latest | grep -oP '"browser_download_url": "\K.*?\.tar\.gz(?=")' | grep -oE ".*dnscrypt-proxy-${DNSCRYPT_PLATFORM}_${DNSCRYPT_ARCH}-.*\.tar\.gz")
+if [ -z "$download_url" ]; then
+    echo "Error: Unable to find .tar.gz asset in the latest release of dnscrypt-proxy for ${DNSCRYPT_PLATFORM} ${DNSCRYPT_ARCH}"
+    exit 1
+fi
+filename=$(basename "$download_url")
+echo "Downloading $download_url"
+wget "$download_url"
+if ! tar -xvzf "$filename"; then
+    tar xvzf "$filename"
+fi
+
+# Extract it
+rm "$filename"
+mv "./${DNSCRYPT_PLATFORM}-${DNSCRYPT_ARCH}" ./dnscrypt-proxy
+
+# Check
+if [ ! -d "./dnscrypt-proxy" ]; then
+    echo "Error downloading or extracting dnscrypt-proxy binaries"
+    exit 1
+fi
+
+# Start build script
+./start.sh

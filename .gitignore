@@ -1,3 +1,5 @@
 /zapret
-/configuration/*
+/dnscrypt-proxy
+/configuration
+/squid
 config.*

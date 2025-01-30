@@ -1,3 +1,4 @@
-docker kill zapret-proxy
+#!/bin/bash
 
-echo "container stopped"
+docker kill zapret-proxy
+echo "Container stopped"

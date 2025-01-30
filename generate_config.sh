@@ -12,5 +12,14 @@ until docker exec zapret-proxy echo "Container is ready"; do
   sleep 2
 done
 
-# Execute starting script
+# Enable and start services
+docker exec zapret-proxy ./enable_services.sh
+
+# Run blockcheck.sh
+docker exec zapret-proxy ./blockcheck_in_container.sh
+
+# Generate new config
+./scripts/form_config.sh
+
+# Reinstall zapret and restart it
 docker exec zapret-proxy ./start_zapret.sh
