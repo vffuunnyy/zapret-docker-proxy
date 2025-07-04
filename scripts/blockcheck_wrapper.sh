@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Domain to test on. Pls use only one domain!
-TEST_DOMAIN="x.com"
+TEST_DOMAIN="youtube.com"
 
 # Output file
 LOG_FILE="blockcheck.log"
