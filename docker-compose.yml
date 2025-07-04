@@ -4,18 +4,20 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: zapret-proxy
-    privileged: true  # Требуется для работы iptables
-    networks:
-      default:
-        external: true
-        name: zapret-network
+    privileged: true
     tmpfs:
       - /run
       - /run/lock
     stdin_open: true
-    tty: true  # Для запуска systemd
+    tty: true
     ports:
       - "3128:3128"
     volumes:
       - ./configuration:/configuration
       - ./squid:/squid
+    networks:
+      - zapret-network
+
+networks:
+  zapret-network:
+    external: true
