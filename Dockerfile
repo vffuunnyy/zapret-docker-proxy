@@ -55,7 +55,7 @@ COPY scripts/add_user.sh /etc/squid/add_user.sh
 COPY scripts/delete_user.sh /etc/squid/delete_user.sh
 
 WORKDIR /opt/zapret
-COPY /zapret/init.d/custom.d.examples.linux/50-discord /zapret/init.d/sysv/custom.d/50-discord
+COPY /zapret/init.d/custom.d.examples.linux/50-nfqws-ipset /zapret/init.d/sysv/custom.d/50-nfqws-ipset
 
 COPY start.sh /opt/zapret/start.sh
 
