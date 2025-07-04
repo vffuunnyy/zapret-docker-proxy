@@ -9,7 +9,7 @@ if [ -d "./zapret" ]; then rm -Rf ./zapret; fi
 
 # REMAKE быстрый фикс для 50 discord
 # Скачивание zapret версии v70.5
-version="v70.5"
+version="v71.1.1"
 download_url=$(curl -s "https://api.github.com/repos/bol-van/zapret/releases/tags/$version" | grep -oP '"browser_download_url": "\K.*?\.tar\.gz(?=")' | grep -v "openwrt")
 
 if [ -z "$download_url" ]; then
