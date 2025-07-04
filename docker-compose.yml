@@ -5,7 +5,8 @@ services:
       dockerfile: Dockerfile
     container_name: zapret-proxy
     privileged: true  # Требуется для работы iptables
-    # network_mode: "host"  # Используем host-сеть для управления трафиком
+    networks:
+      - zapret-network
     tmpfs:
       - /run
       - /run/lock
@@ -16,3 +17,8 @@ services:
     volumes:
       - ./configuration:/configuration
       - ./squid:/squid
+
+networks:
+  default:
+    external: true
+    name: zapret-network
